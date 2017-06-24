@@ -13,7 +13,30 @@ Tools::~Tools() {}
 
 VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
                               const vector<VectorXd> &ground_truth) {
-  // Calculate the RMSE here
+  VectorXd rmse(4);
+  rmse << 0,0,0,0;
+  // Check the validity of inputs
+  if(estimations.size() == 0){
+    cout << "Input is empty" << endl;
+    return rmse;
+  }
+
+  if(estimations.size() != ground_truth.size()){
+    cout << "Estimations should have same size as ground truth" << endl;
+    return rmse;
+  }
+
+  // Accumulate squared residuals
+  for(unsigned int i=0; i < estimations.size(); ++i){
+    VectorXd residual = estimations[i] - ground_truth[i];
+    residual = residual.array()*residual.array();
+    rmse += residual;
+  }
+
+  // Calculate mean
+  rmse = rmse / estimations.size();
+  rmse = rmse.array().sqrt();
+  return rmse;
 }
 
 MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
@@ -37,12 +60,6 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   float c1 = px*px+py*py;
   float c2 = sqrt(c1);
   float c3 = (c1*c2);
-
-  // Check division by zero
-  if(fabs(c1) < 0.0001){
-        cout << "CalculateJacobian () - Error - Division by Zero" << endl;
-        return Hj;
-  }
 
   // Compute the Jacobian matrix
   Hj << (px/c2), (py/c2), 0, 0,

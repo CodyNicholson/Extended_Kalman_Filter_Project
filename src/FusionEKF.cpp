@@ -71,6 +71,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       float y = rho * sin(phi);
       float vx = rho_dot * cos(phi);
       float vy = rho_dot * sin(phi);
+      // Use rho_dot for computing rough initial estimates for vx and vy
       ekf_.x_ << x, y, vx , vy;
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
