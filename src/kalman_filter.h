@@ -70,11 +70,6 @@ public:
    */
   void KF(const Eigen::VectorXd &y);
 
-  /**
-   * Normalize difference angle y(1)
-  */
-  void NormalizeAngle(double& phi);
-
 };
 
 #endif /* KALMAN_FILTER_H_ */
