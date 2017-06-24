@@ -65,7 +65,7 @@ public:
   void UpdateEKF(const Eigen::VectorXd &z);
 
   /**
-   * Universal update Kalman Filter step. Equations from the lectures
+   * Update Kalman Filter step for both KF and EKF
    * @param y The error
    */
   void KF(const Eigen::VectorXd &y);
